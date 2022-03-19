@@ -23,7 +23,7 @@ A **linear model** or **linear hypothesis** is a function of the form:
 
 <img src="https://latex.codecogs.com/svg.image?&space;h_{\beta}(x_1,\ldots,x_n)&space;=&space;\beta_0&plus;\beta_1x_1&plus;\ldots&plus;\beta_nx_n">
 
-for some fixed set of coefficients <img src="https://latex.codecogs.com/svg.image?\beta_i"> which we call the **parameters**. A **linear regression problem** is a machine learning problem where we are asked to produce such a function from a given set of data values <img src="https://latex.codecogs.com/svg.image?\{ (x^{(i)}, y^{(i)}) \}_{i=1}^m"> (superscripts here denote the index). The objective is to find parameters <img src="https://latex.codecogs.com/svg.image?\beta_i"> which produces the "best" model <img src="https://latex.codecogs.com/svg.image?h_{\beta}">. Here the term "best model" is with respect to some kind of scoring metric.
+for some fixed set of coefficients <img src="https://latex.codecogs.com/svg.image?\beta_i"> which we call the **parameters**. A **linear regression problem** is a machine learning problem where we are asked to produce such a function from a given set of data values <img src="https://latex.codecogs.com/svg.image?\{(x^{(i)}, y^{(i)})\}_{i=1}^m"> (superscripts here denote the index). The objective is to find parameters <img src="https://latex.codecogs.com/svg.image?\beta_i"> which produces the "best" model <img src="https://latex.codecogs.com/svg.image?h_{\beta}">. Here the term "best model" is with respect to some kind of scoring metric.
 
 
 The metric we use to score our model will be the **Mean Absolute Error (MAE)** defined as:
