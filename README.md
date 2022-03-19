@@ -36,8 +36,8 @@ The metric we use to score our model will be the **Mean Absolute Error (MAE)** d
 
 where:
 - <img src="https://latex.codecogs.com/svg.image?m"> is the number of training/test examples.
-- <img src="https://latex.codecogs.com/svg.image?y^{(i)}"> is the actual value of the $i$-th example.
-- <img src="https://latex.codecogs.com/svg.image?x^{(i)}"> is the vector of feature/input values of the $i$-th example.
+- <img src="https://latex.codecogs.com/svg.image?y^{(i)}"> is the actual value of the <img src="https://latex.codecogs.com/svg.image?i">-th example.
+- <img src="https://latex.codecogs.com/svg.image?x^{(i)}"> is the vector of feature/input values of the <img src="https://latex.codecogs.com/svg.image?i">-th example.
 - <img src="https://latex.codecogs.com/svg.image?h_{\beta}"> is our trained model.
 
 We chose this metric for the reason of interpretability: in the context of the problem, the MAE is, quite literally, the expected dollar amount our model's predictions will deviate from the true price. This interpretability is highly desirable especially in a business and financial setting, where decisions must be made based on the model's predictions and performance. This metric is computed against a hold-out *test* set to evaluate the model's performance on new/unseen data.
