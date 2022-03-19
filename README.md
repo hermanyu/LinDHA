@@ -45,7 +45,7 @@ We chose this metric for the reason of interpretability: in the context of the p
 The data set we will use to build and train our model will be the 2006-2010 <a href=http://jse.amstat.org/v19n3/decock/DataDocumentation.txt > Ames, Iowa Housing Data </a>. A csv of the training data is provided in ```/data/train.csv``` in the project directory. This data set contains approximately 2050 houses with 80 features. The feature we wish to predict is thte ```SalePrice``` value; we call this the **target variable** or **output value** and reserve the term *feature* for input values exclusively. Three features will not be used under any circumstances: ```Yr Sold```, ```Mo Sold```, and ```Sale Type``` as these are features our model will not have access to before a sale has actually been made (this issue is more generally called **data leakage**). The data dictionary can be found in the hyperlink provided above.
 
 
-Secondary to this is an *unlabeled* set of houses used as part of a Kaggle competition. The models built were used to generate predictions of ```SalePrice``` values for this set of houses. These predictions were then submitted to a private Kaggle competition (hosted by General Assembly). The Mk. 3 version of this model was in fact the winning model amongst all submissions.
+Secondary to this is an *unlabeled* set of houses used as part of a Kaggle competition. The models built were used to generate predictions of ```SalePrice``` values for this set of houses. These predictions were then submitted to a private Kaggle competition (hosted by General Assembly). The Mk. 3 version of this model was in fact the winning model amongst all other competitors.
 
 
 ## The ```PaulBettany``` Library and a Custom Class ```Project```
