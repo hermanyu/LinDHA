@@ -4,7 +4,7 @@
 
 The ```ames-poly-engineered.csv``` contained 42,000+ columns and 2900+ rows. The resulting csv file was 425 mb which exceeded githubs max upload limit. The cells using these csv's should already be run and displayed but if you need this file for any reason, feel free to contact the author for a copy.
 
-## Problem Statement:
+# Problem Statement:
 
 The purpose of this project is to iteratively build a linear model to predict (as accurately as possible) the housing prices in Ames, Iowa from 2006 to 2010. This problem is interesting for 2 majors reasons stated below.
 
@@ -17,7 +17,10 @@ The objective of this project then, is iteratively produce a linear model to ach
 
 <br>
 
-## Background
+---
+
+# Background
+
 
 A **linear model** or **linear hypothesis** is a function of the form:
 
@@ -25,8 +28,9 @@ A **linear model** or **linear hypothesis** is a function of the form:
 
 for some fixed set of coefficients <img src="https://latex.codecogs.com/svg.image?\beta_i"> which we call the **parameters**. A **linear regression problem** is a machine learning problem where we are asked to produce such a function from a given set of data values <img src="https://latex.codecogs.com/svg.image?\{(x^{(i)},y^{(i)})\}_{i=1}^m"> (superscripts here denote the index). The objective is to find parameters <img src="https://latex.codecogs.com/svg.image?\beta_i"> which produces the "best" model <img src="https://latex.codecogs.com/svg.image?h_{\beta}">. Here the term "best model" is with respect to some kind of scoring metric.
 
+<br>
 
-The metric we use to score our model will be the **Mean Absolute Error (MAE)** defined as:
+The metric we use to evaluate our model will be the **Mean Absolute Error (MAE)** defined as:
 
 <br>
 
@@ -40,15 +44,24 @@ where:
 - <img src="https://latex.codecogs.com/svg.image?x^{(i)}"> is the vector of feature/input values of the <img src="https://latex.codecogs.com/svg.image?i">-th example.
 - <img src="https://latex.codecogs.com/svg.image?h_{\beta}"> is our trained model.
 
+*Note: We are using MAE to evaluate performance, not as the actual loss function!*
+
 We chose this metric for the reason of interpretability: in the context of the problem, the MAE is, quite literally, the expected dollar amount our model's predictions will deviate from the true price. This interpretability is highly desirable especially in a business and financial setting, where decisions must be made based on the model's predictions and performance. This metric is computed against a hold-out *test* set to evaluate the model's performance on new/unseen data.
+
+We should mention here: although we are using MAE to grade our model, we discovered that regressing w.r.t. to the MSE loss function actually leads to the best results. Therefore, we regress the models using MSE loss function, while evaluating model performance via MAE. That being said, we do in fact try regressing with MAE using ```SGDRegressor()``` from ```sklearn``` during the Mk. 2 iteration of LinDHA.
+
+<br>
 
 The data set we will use to build and train our model will be the 2006-2010 <a href=http://jse.amstat.org/v19n3/decock/DataDocumentation.txt > Ames, Iowa Housing Data </a>. A csv of the training data is provided in ```/data/train.csv``` in the project directory. This data set contains approximately 2050 houses with 80 features. The feature we wish to predict is thte ```SalePrice``` value; we call this the **target variable** or **output value** and reserve the term *feature* for input values exclusively. Three features will not be used under any circumstances: ```Yr Sold```, ```Mo Sold```, and ```Sale Type``` as these are features our model will not have access to before a sale has actually been made (this issue is more generally called **data leakage**). The data dictionary can be found in the hyperlink provided above.
 
 
 Secondary to this is an *unlabeled* set of houses used as part of a Kaggle competition. The models built were used to generate predictions of ```SalePrice``` values for this set of houses. These predictions were then submitted to a private Kaggle competition (hosted by General Assembly). The Mk. 3 version of this model was in fact the winning model of the competition.
 
+<br>
 
-## The ```PaulBettany``` Library and a Custom Class ```Project```
+---
+
+# The ```PaulBettany``` Library and a Custom Class ```Project```
 
 Since different models are trained on different configurations of features, one of the technical challenges for this project was organization and compartmentalization. After many iterations of a model, it became tedious and unfeasible to mentally track each model's list of input features.
 
@@ -66,8 +79,13 @@ Various other helper functions and methods exist and we cannot hope to cover the
 
 **WARNING:** As of writing, the ```Project``` class is still poorly optimized and stores many redundant copies of the same dataframe. For smaller dataframes and projects this is not a big deal, but for larger data frames (such as the ones we will create for regularization), the increase in load-times and processing times is very noticeable. For this reason, we use our custom ```Project``` class only for the first 3 models where the dataframes are still relatively small.
 
+<br>
 
-## Summary of Methodology and Results
+---
+
+# Summary of Methodology and Results
+
+All final model versions were trained with MSE loss function. The author did experiment with implementing a MAE loss function during the Mk. 2 iteration, but MSE significantly outperformed this implementation. For further details about the conceptual differences between the two loss functions, please refer to the last section of notebook ```02-Feature-Tuning```.
 
 The model building process will consist of steps, meant to iteratively improve the sophistication of the model:
 
@@ -83,7 +101,11 @@ The model building process will consist of steps, meant to iteratively improve t
 
 1) **Base Model:** We take the numerical variables with a correlation coefficient $r>0.2$ found in the EDA step and assemble a rudimentary model called *LinDHA Mk 1*. The Mk 1 serves as the prototype model to which we add features and scale upwards. The base model results in a MAE of $ 21,365. 
 
-2) **Feature Selection:** We manually test different configurations of features to try and find the theoretical optima in the feature space. The purpose of this step is to see how far we can get without any sophisticated manipulations or engineering. After testing various configurations, we take the best such configuration to build the Mk. 2 model. The Mk. 2 results in a MAE of $15,640.
+2) **Feature Selection:** We manually test different configurations of features to try and find the theoretical optima in the feature space. The purpose of this step is to see how far we can get without any sophisticated manipulations or engineering. After testing various configurations, we take the best such configuration to build the Mk. 2 model. The Mk. 2 results in a MAE of $15,640. 
+
+    Here during the Mk. 2 stage while the number of features is still low, we also implement ```SGDRegressor()``` to train a model by using MAE as the actual loss function. This is acheived by setting the ```loss = epsilon_insensitive``` and ```epsilon=0```. The results were interesting: the MAE trained model performed worse than the MSE trained model with the former having a MAE score of $19,885. 
+
+    The author is unsure why this is the case, but does propose the following hypothesis: the MSE loss function penalizes the model much more heavily for large errors than the MAE loss function. This means that MSE trained models are encouraged to overfit and will force themselves to accommodate all training examples. On the other hand MAE trained models are not penalized as harshly for underfitting and so they generally remain inert even if they are moderately far from the training examples.
 
 3) **Feature Engineering:** We manually engineer features to increase the model's **capacity** (a theoretical value that measures the model's ability to learn complex hypotheses). In this step, we sum features to remove redudancies. We also create interaction terms by multiplying Area features against Quality features to try and magnify the value of high quality homes. We also try to square root the area features. The resulting Mk. 3 model scores a MAE of $13,909, 2nd best amongst our cross-validated models and the winning model for the Kaggle competition hosted by General Assembly for the DSIR-222 cohort.
 
