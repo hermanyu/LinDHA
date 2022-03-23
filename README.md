@@ -117,8 +117,10 @@ The model building process will consist of steps, meant to iteratively improve t
 
 7) *(Bonus)* **KNN:** Out of curiousity, the author decided to run a simple k-nearest neighbors regression model. The "smoothness" and characteristic of the learned hypothesis can be controlled for via a pair of hyperparameters: <img src="https://latex.codecogs.com/svg.image?k"> the number of neighbors and <img src="https://latex.codecogs.com/svg.image?p"> the choice of norm. Informally, <img src="https://latex.codecogs.com/svg.image?k"> decides *how* many neighbors and <img src="https://latex.codecogs.com/svg.image?p"> decides *who* is a neighbor. The optimal pairing was found via a low time-cost grid search which resulted in <img src="https://latex.codecogs.com/svg.image?k=10"> neighbors using <img src="https://latex.codecogs.com/svg.image?p=1"> (the Manhattan/Taxicab norm). The resulting model had a MAE of $20,800.
 
+<br>
 
-## Conclusions
+---
+# Conclusions
 
 The best score the author found was a MAE of approximately $13,500 - $14,000. Thus the average MAE across all the models is approximately 7.7% of the mean Sales Price of houses in the data set. LinDHA tends to perform very well for houses from $100,000 - $400,000. After this range, the errors in prediction become more volatile and should viewed with an air of caution. It seems that housing prices can be modeled, to a degree, using a linear model such as LinDHA and the author believes that it is viable and worth investing time in the development of a more sophisticated model to drive down MAE even more.
 
