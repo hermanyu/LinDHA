@@ -1,8 +1,12 @@
 # Linear Data Housing Appraiser (LinDHA)
 
+---
+
 ## Technical Note:
 
 The ```ames-poly-engineered.csv``` contained 42,000+ columns and 2900+ rows. The resulting csv file was 425 mb which exceeded githubs max upload limit. The cells using these csv's should already be run and displayed but if you need this file for any reason, feel free to contact the author for a copy.
+
+---
 
 # Problem Statement:
 
